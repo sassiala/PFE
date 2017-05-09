@@ -1,0 +1,23 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    {{ entity.employee.firstName }}'s assignment-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    {{ entity.employee.firstName }}'S ASSIGNMENT
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+        <h1>Assignment creation</h1>
+
+        {{ form(form) }}
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('assignment') }}">
+                    Back to the list
+                </a>
+            </li>
+        </ul>
+{% endblock container_fluid %}

@@ -1,0 +1,153 @@
+{% extends '::Theme.html.twig' %}
+
+{% block title %}
+    Add Employe-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    ADD EMPLOYEE
+{% endblock title_head_bar %}
+{#
+
+{% block body -%}
+    <h1>Employee creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('employee') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
+#}
+{% block container_fluid %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header col-lg-8">
+                ADD EMPLOYE
+            </h1>
+
+            <h1 class=" col-lg-2">
+                <a class="btn btn-default btn-xs" href="{{ path('employee') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                </span>
+                    Back to the list
+                </a>
+            </h1>
+        </div>
+    </div>
+
+
+    <div class="well">
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+        <div class="form-group">
+
+            {{ form_label(form.firstName, "First Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lastName, "Last Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.sexe, "Sexe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.sexe, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(form.phoneNumbre, "Phone Number :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.phoneNumbre, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            {{ form_label(form.identificationType, "Identification Type :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.identificationType, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(form.identificationNumbre, "Identification Numbre :", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.identificationNumbre,{'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(form.contractType, "Contract Type :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.contractType, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(form.joinDate, "Join Date :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(form.joinDate, {'value': "now"|date("m/d/Y"),'attr': {'class': 'form-control btn-md center-block'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(form.departureDate, "Departure Date :", {'label_attr': {'class': 'col-sm-7 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(form.departureDate, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(form.adresse, "Adresse :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-8">
+                {# Génération de l'input. #}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-12">
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-8"></div>
+            <div class="relative col-xs-2">
+                {# Génération de l'input. #}
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success form-control'}})}}
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+
+
+{% endblock container_fluid %}
+
+

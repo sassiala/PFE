@@ -1,0 +1,5 @@
+agepe_admin:
+    resource: "@AGEPEAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

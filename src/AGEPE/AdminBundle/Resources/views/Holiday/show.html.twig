@@ -1,0 +1,44 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    Edit Holiday-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    EDIT HOLIDAY
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+    <h1>Holiday</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Holidaydate</th>
+                <td>{{ entity.holidayDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ entity.title }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('holiday') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('holiday_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

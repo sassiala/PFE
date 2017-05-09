@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\MachineInterface" table="machine_interface">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="importDate" type="date" column="import_date" nullable="false"/>
+    <field name="punchTime" type="time" column="punch_time" nullable="false"/>
+    <field name="treatedDate" type="date" column="treated_date" nullable="true"/>
+    <many-to-one field="employee" target-entity="Employee">
+      <join-columns>
+        <join-column name="employee_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

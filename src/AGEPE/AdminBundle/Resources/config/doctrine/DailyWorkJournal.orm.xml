@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\DailyWorkJournal" table="daily_work_journal">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="asDate" type="date" column="as_date" nullable="false"/>
+    <field name="slotFrom" type="time" column="slot_from" nullable="true"/>
+    <field name="slotTo" type="time" column="slot_to" nullable="true"/>
+    <field name="computedFrom" type="time" column="computed_from" nullable="true"/>
+    <field name="computedTo" type="time" column="computed_to" nullable="true"/>
+    <field name="dayOff" type="boolean" column="day_off" nullable="false"/>
+    <field name="weeklyDayOff" type="boolean" column="weekly_day_off" nullable="false"/>
+    <many-to-one field="paidLeave" target-entity="PaidLeave">
+      <join-columns>
+        <join-column name="paid_leave_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="machineInterfaceTo" target-entity="MachineInterface">
+      <join-columns>
+        <join-column name="machine_interface_to_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="machineInterfaceFrom" target-entity="MachineInterface">
+      <join-columns>
+        <join-column name="machine_interface_from_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="employee" target-entity="Employee">
+      <join-columns>
+        <join-column name="employee_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="holiday" target-entity="Holiday">
+      <join-columns>
+        <join-column name="holiday_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="travel" target-entity="Travel">
+      <join-columns>
+        <join-column name="travel_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,137 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    List Holidays/Travel-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    LIST HOLIDAYS/Travels
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    <div class="form-group">
+        <div class="row page-header col-lg-12">
+            <div class=" col-sm-2">
+                <a class="btn btn-default btn-lg" href="{{ path('holiday_new') }}">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Add Holiday
+                </a>
+            </div>
+            <div class="col-lg-8">
+
+            </div>
+            <div class=" col-sm-2">
+                <a class="btn btn-default btn-lg" href="#">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Add Travel
+                </a>
+            </div>
+        </div>
+
+
+        <div class="table-responsive col-sm-5">
+            <h1 class="page-header">
+                Holiday
+            </h1>
+            <table class="table table-bordered table-hover table-striped" id="mydata">
+                <thead>
+                <tr class="bg-primary text-white">
+                    <th class="col-sm-2">Title</th>
+                    <th class="col-sm-2">Date</th>
+                    <th class="col-sm-2">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>
+                            {{ entity.title}}
+                        </td>
+
+                        <td>
+                            {{ entity.holidayDate|date('Y-m-d')}}
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a class="btn btn-xs btn-link" href="{{ path('holiday_edit', { 'id': entity.id }) }}">
+                                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                        edit
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-responsive col-sm-7">
+            <h1 class="page-header">
+                Travel
+            </h1>
+            <table class="table table-bordered table-hover table-striped" id="myTravelData">
+                <thead>
+                <tr class="bg-primary text-white">
+                    <th class="col-sm-5">Title</th>
+                    <th class="col-sm-2">From</th>
+                    <th class="col-sm-2">To</th>
+                    <th class="col-sm-1">Employee</th>
+                    <th class="col-sm-1">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for entity in entitiesTravel %}
+                    <tr>
+                        <td>
+                            {{ entity.title}}
+                        </td>
+
+                        <td>
+                            {{ entity.fromDate|date('y-m-d')}}
+                        </td>
+
+                        <td>
+                            {{ entity.toDate|date('y-m-d')}}
+                        </td>
+
+                        <td>
+                            {{ entity.employee.lastName }}
+                        </td>
+
+                        <td>
+                            <ul>
+                                <li>
+                                    <a class="btn btn-xs btn-link"
+                                       href="#">
+                                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                        edit
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+{% endblock container_fluid %}
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+    <script>
+        $('#myTravelData').dataTable();
+    </script>
+
+{% endblock script %}

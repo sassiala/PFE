@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\TimeSlot" table="time_slot">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="slotFrom" type="time" column="slot_from" nullable="false"/>
+
+    <field name="minFrom" type="time" column="min_from" nullable="false"/>
+    <field name="maxFrom" type="time" column="max_from" nullable="false"/>
+    <field name="slotTo" type="time" column="slot_to" nullable="false"/>
+
+    <field name="minTo" type="time" column="min_to" nullable="false"/>
+    <field name="maxTo" type="time" column="max_to" nullable="false"/>
+    <many-to-many field="timeShift" target-entity="TimeShift" mapped-by="timeSlot"/>
+  </entity>
+</doctrine-mapping>

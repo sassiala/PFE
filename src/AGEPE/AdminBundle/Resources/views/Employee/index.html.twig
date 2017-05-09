@@ -1,0 +1,121 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    List Employe-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    LIST EMPLOYEE
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+{#
+    <div class="row">
+
+        <div class="col-sm-11 page-header">
+            <div class="col-sm-9">
+                <h1 class="">
+                    Employee list
+                </h1>
+            </div>
+            <div class=" col-sm-2">
+                <a class="btn btn-default btn-lg" href="{{ path('employee_new') }}">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Create a new Employee
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+#}
+
+    <div class="row page-header">
+        <div class=" col-sm-2">
+            <a class="btn btn-default btn-lg" href="{{ path('employee_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Create a new Employee
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="mydata">
+        <thead>
+        <tr class="bg-primary text-white">
+            <th>Name</th>
+            <th>Sexe</th>
+            <th>Identification type</th>
+            <th>Identification numbre</th>
+            <th>Join date</th>
+            <th>Departure date</th>
+            <th>Contract type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>
+                        <a href="{{ path('employee_show',{'id':entity.id}) }}">
+
+                            {{ entity.firstName~' '~ entity.lastName}}
+                        </a>
+                </td>
+                <td class="text-center">
+                    {% if entity.sexe == "MALE" %}
+                        <span class="fa fa-male" aria-hidden="true"></span> {#from Awsome Biblio#}
+                        M
+                    {% else %}
+                        <span class="fa fa-female" aria-hidden="true"></span>
+                        F
+                    {% endif %}
+                </td>
+                <td>{{ entity.identificationType }}</td>
+                <td>{{ entity.identificationNumbre }}</td>
+                <td>
+                        {{ entity.joinDate|date('Y-m-d') }}
+
+                </td>
+
+                    {% if entity.departureDate %}
+                        <td>
+                            {{ entity.departureDate|date('Y-m-d') }}
+                        </td>
+                    {% else %}
+                        <td class="bg-warning text-white">
+                            {{ 'NOT DEFINE' }}
+                        </td>
+
+                    {% endif %}
+
+                <td>{{ entity.contractType }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a class="btn btn-xs btn-link" href="{{ path('employee_show', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                show
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-xs btn-link" href="{{ path('employee_edit', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                edit
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock container_fluid %}
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+{% endblock script %}

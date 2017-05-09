@@ -1,0 +1,20 @@
+{% extends '::Theme.html.twig' %}
+
+{% block container_fluid %}
+    <form id="myForm" method="post" onsubmit="test()">
+        <div class="col-sm-2" id="cin">
+            <input id="cinText" type="text" class="form-control">
+        </div>
+        <input id="btn" type="submit" value="ok" >
+    </form>
+
+{% endblock container_fluid %}
+
+ {% block javascript_head %}
+
+
+ {% endblock javascript_head %}
+
+{% block script %}
+    <script src="{{ asset('js/testAla.js') }}"></script>
+{% endblock script %}

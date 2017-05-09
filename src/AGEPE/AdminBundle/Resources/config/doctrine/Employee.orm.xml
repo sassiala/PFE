@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\Employee" table="employee">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="firstName" type="string" column="first_name" length="30" nullable="false"/>
+    <field name="lastName" type="string" column="last_name" length="30" nullable="false"/>
+    <field name="sexe" type="string" column="sexe" nullable="false"/>
+    <field name="adresse" type="string" column="adresse" length="50" nullable="true"/>
+    <field name="phoneNumbre" type="string" column="phone_numbre" length="8" nullable="true"/>
+    <field name="identificationType" type="string" column="identification_type" nullable="false"/>
+    <field name="identificationNumbre" type="string" column="identification_numbre" length="8" nullable="false"/>
+    <field name="joinDate" type="date" column="join_date" nullable="false"/>
+    <field name="departureDate" type="date" column="departure_date" nullable="true"/>
+    <field name="contractType" type="string" column="contract_type" nullable="false"/>
+  </entity>
+</doctrine-mapping>

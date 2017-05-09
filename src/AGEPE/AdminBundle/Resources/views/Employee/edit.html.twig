@@ -1,0 +1,155 @@
+{#{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Employee edit</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('employee') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
+#}
+
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    Edit Employee-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    EDIT EMPLOYEE
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header col-lg-8">
+                Edit Employee " {{ entity.firstName }} "
+            </h1>
+            <h1 class="page-header col-lg-2">
+                <a class="btn btn-default btn-xs" href="{{ path('employee') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                </span>
+                    Back to the list
+                </a>
+            </h1>
+        </div>
+    </div>
+
+    <div class="well">
+
+        {{ form_start(edit_form, {'attr': {'class': 'form-horizontal'}}) }}
+
+        <div class="form-group">
+
+            {{ form_label(edit_form.firstName, "First Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.firstName, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.lastName, "Last Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.lastName, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.sexe, "Sexe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.sexe, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(edit_form.phoneNumbre, "Phone Number :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.phoneNumbre, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.identificationType, "Identification Type :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.identificationType, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(edit_form.identificationNumbre, "Identification Numbre :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.identificationNumbre, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(edit_form.contractType, "Contract Type :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.contractType, {'attr': {'class': 'form-control'}})}}
+            </div>
+
+            {{ form_label(edit_form.joinDate, "Join Date :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-3">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.joinDate, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group" name="departureDate">
+
+            {{ form_label(edit_form.departureDate, "Departure Date :", {'label_attr': {'class': 'col-sm-7 control-label'}}) }}
+            <div class="col-sm-3" >
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.departureDate, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(edit_form.adresse, "Adresse :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+            <div class="col-sm-8">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.adresse, {'attr': {'class': 'form-control'}})}}
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-6"></div>
+            <div class="relative col-xs-2">
+                {# Génération de l'input. #}
+                {{ form_widget(edit_form.submit, {'attr': {'class': 'btn btn-success form-control'}})}}
+            </div>
+            {{ form_end(edit_form) }}
+            <div class="relative col-xs-2">
+                {# Génération de l'input.#}
+                    {{ form_start(delete_form)}}
+                        {{ form_widget(delete_form.date) }}
+                        {{ form_widget(delete_form.submit, {'attr': {'class': 'btn btn-danger form-control'}})}}
+                    {{ form_end(delete_form) }}
+
+            </div>
+        </div>
+    </div>
+{% endblock container_fluid %}
+{#
+{% block script %}
+    <script>
+        function myFunction() {
+            document.getElementById("departureDate").innerHTML="bousedra";
+        }
+    </script>
+{% endblock script %}
+#}

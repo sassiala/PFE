@@ -1,0 +1,108 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    {{ entity.firstName }}'s details-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    {{ entity.firstName }}'S DETAILS
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    <div class="row">
+        <h1 class=" col-lg-8"> "{{ entity.lastName }}'s" details ..</h1>
+        <h1 class=" col-lg-2">
+            <a class="btn btn-default btn-xs" href="{{ path('employee') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                </span>
+                Back to the list
+            </a>
+        </h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tbody>
+            <tr>
+                <th>First Name</th>
+                <td>{{ entity.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{ entity.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ entity.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                {% if entity.adresse == null %}
+                    <td>{{ '#not Define#' }}</td>
+                {% else %}
+                    <td>{{ entity.adresse }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Phone Numbre</th>
+                {% if entity.phoneNumbre == null %}
+                    <td>{{ '#not Define#' }}</td>
+                {% else %}
+                    <td>{{ entity.phoneNumbre }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Identification Type</th>
+                <td>{{ entity.identificationType }}</td>
+            </tr>
+            <tr>
+                <th>Identification Numbre</th>
+                <td>{{ entity.identificationNumbre }}</td>
+            </tr>
+            <tr>
+                <th>Join Date</th>
+                <td>{{ entity.joinDate|date('Y/m/d') }}</td>
+            </tr>
+            <tr>
+                <th>Departure Date</th>
+                {% if entity.departureDate == null %}
+                    <td>{{ '#not Define#' }}</td>
+                {% else %}
+                    <td>{{ entity.departureDate|date('Y/m/d') }}</td>
+                {% endif %}
+
+            </tr>
+            <tr>
+                <th>Contract Type</th>
+                <td>{{ entity.contractType }}</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row">
+
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-lg-5"></div>
+
+        <a class="relative col-xs-2 btn btn-info " href="{{ path('employee_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+        <div class="col-lg-1"></div>
+        <a class="relative col-xs-2 btn btn-info " href="{{ path('assignment_new', { 'id': entity.id }) }}">
+            Add assignment
+        </a>
+    </div>
+
+    <div class="row">
+
+    </div>
+
+
+{% endblock container_fluid %}

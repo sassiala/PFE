@@ -1,0 +1,169 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    List DWJ-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+        LIST OF ALL DAILY WORK JOURNAL
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    {#
+    <div class="row page-header ">
+
+
+        <form method="post">
+            <div class="form-group ">
+                <h1 class=" col-sm-8 center-block">
+                    LIST OF DAILY WORK JOURNAL
+                </h1>
+
+                <h1 class=" col-sm-2 ">
+                    <input type="date" name="asDate" class="form-control btn-md center-block" value="{{ date }}">
+                </h1>
+                <h1 class=" col-sm-2">
+                    <button type="submit" name="search" class=" form-control btn btn-info btn-md center-block">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Search
+                    </button>
+                </h1>
+            </div>
+        </form>
+    </div>
+#}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" id="mydata">
+                <thead>
+                <tr class="bg-primary text-white">
+                    <th class="col-lg-2">Date</th>
+                    <th class="col-lg-2">Employee</th>
+                    <th class="col-lg-1">Slot</th>
+                    <th class="col-lg-1">Computed</th>
+                    <th class="col-lg-1">Punch</th>
+                    <th class="col-lg-1">Travel</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for entity in entities %}
+
+                        <tr>
+                            <td>
+                                {{ entity.asDate|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                <a href="{{ path('employee_show',{'id':entity.employee.id}) }}">
+                                {{ entity.employee.firstName~' '~ entity.employee.lastName}}
+                                </a>
+                            </td>
+
+                            <td>
+                                {% if entity.slotFrom == true and entity.slotTo == true %}
+                                    <ul>
+                                        <li>
+                                            {{ entity.slotFrom|date('G:i')}}
+                                        </li>
+                                        <li>
+                                            {{ entity.slotTo|date('G:i')}}
+                                        </li>
+                                    </ul>
+                                {% elseif entity.slotFrom == true %}
+                                        <ul class="bg-info text-white">
+                                            From
+                                            {{ entity.slotFrom|date('G:i')}}
+                                        </ul>
+                                    {% elseif entity.slotTo == true %}
+                                            <ul class="bg-info text-white">
+                                                To
+                                                {{ entity.slotTo|date('G:i')}}
+                                            </ul>
+                                        {% else %}
+                                            <ul class=" bg-warning text-white">
+                                                Not define
+                                            </ul>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if entity.computedFrom == true and entity.computedTo == true %}
+                                    <ul>
+                                        <li>
+                                            {{ entity.computedFrom|date('G:i')}}
+                                        </li>
+                                        <li>
+                                            {{ entity.computedTo|date('G:i')}}
+                                        </li>
+                                    </ul>
+                                {% elseif entity.computedFrom == true %}
+                                    <ul class="bg-info text-white">
+                                        From
+                                        {{ entity.computedFrom|date('G:i')}}
+                                    </ul>
+                                {% elseif entity.computedTo == true %}
+                                    <ul class="bg-info text-white">
+                                        To
+                                        {{ entity.computedTo|date('G:i')}}
+                                    </ul>
+                                {% else %}
+                                    <ul class="bg-warning text-white">
+                                        Not define
+                                    </ul>
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                {% if entity.machineInterfaceFrom == true and entity.machineInterfaceTo == true %}
+                                    <ul>
+                                        <li>
+                                            {{ entity.machineInterfaceFrom.punchTime|date('G:i')}}
+                                        </li>
+                                        <li>
+                                            {{ entity.machineInterfaceTo.punchTime|date('G:i')}}
+                                        </li>
+                                    </ul>
+                                {% elseif entity.machineInterfaceFrom == true %}
+                                    <ul class="bg-info text-white">
+                                        From
+                                        {{ entity.machineInterfaceFrom.punchTime|date('G:i')}}
+                                    </ul>
+                                {% elseif entity.machineInterfaceTo == true %}
+                                    <ul class="bg-info text-white">
+                                        To
+                                        {{ entity.machineInterfaceTo.punchTime|date('G:i')}}
+                                    </ul>
+                                {% else %}
+                                    <ul class="bg-warning text-white">
+                                        Not define
+                                    </ul>
+                                {% endif %}
+                        </td>
+
+                            <td>
+                                {% if entity.travel == true %}
+                                    <a href="{{ path('travel_show',{'id':entity.travel.id}) }}">
+                                        <p>in Travel</p></br>
+                                        <p>from {{ entity.travel.fromDate|date('y-m-d') }}</p></br>
+                                        <p>from {{ entity.travel.toDate|date('y-m-d') }}</p>
+                                    </a>
+                                {% else %}
+                                    <ul class="bg-warning text-white">
+                                        Not Travel
+                                    </ul>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock container_fluid %}
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+{% endblock script %}

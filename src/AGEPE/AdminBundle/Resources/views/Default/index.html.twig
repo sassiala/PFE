@@ -1,0 +1,20 @@
+{% extends '::Theme.html.twig' %}
+
+{% block container_fluid %}
+    <form id="myForm" method="post">
+        <div class="col-sm-2" id="cin">
+            <input id="cinText" type="text" class="form-control">
+        </div>
+        <input id="btn" type="button" value="ok" onclick="test">
+    </form>
+
+{% endblock container_fluid %}
+
+ {% block javascript_head %}
+
+
+ {% endblock javascript_head %}
+
+{% block script %}
+    <script src="{{ asset('js/testFeker.js') }}"></script>
+{% endblock script %}

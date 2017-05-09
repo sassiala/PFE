@@ -1,0 +1,112 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    {{employee.lastName }}'s Assignment-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    LIST OF {{employee.lastName }}'s ASSIGNMENT
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <a class="btn btn-default btn-lg" href="#">
+                Add new Assignment
+            </a>
+        </div>
+        <h1 class=" col-lg-2">
+            <a class="btn btn-default btn-xs" href="{{ path('assignment') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                </span>
+                Back to the list
+            </a>
+        </h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="mydata">
+            <thead>
+            <tr class="bg-primary text-white">
+                <th class="col-lg-3">Employee</th>
+                <th class="col-lg-2">From date</th>
+                <th class="col-lg-2">To date</th>
+                <th class="col-lg-2">Shift name</th>
+                <th class="col-lg-2">Slots</th>
+                <th class="col-lg-1">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for entity in entities %}
+
+                <tr>
+
+                    <td>
+                        <a href="{{ path('employee_show',{'id':entity.employee.id}) }}">
+                            {{ entity.employee.firstName~' '~ entity.employee.lastName}}
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="#">
+                            {{ entity.fromDate|date('Y-m-d') }}
+                        </a>
+                    </td>
+
+                    {% if entity.toDate %}
+                        <td>
+                            {{ entity.toDate|date('Y-m-d') }}
+                        </td>
+                    {% else %}
+                        <td class="bg-warning text-white">
+                            {{ 'NOT DEFINE' }}
+                        </td>
+                    {% endif %}
+
+                    <td>
+                        {{ entity.timeShift.shiftName }}
+                    </td>
+
+                    <td>
+                        <select>
+                            {%  for slot in entity.timeShift.timeSlot %}
+                                <option>
+                                    {{ slot.slotFrom|date('G:i')~' -> '~ slot.slotTo|date('G:i')}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td>
+                        <ul>
+                            <li>
+                                <a class="btn btn-xs btn-link" href="{{ path('assignment_show',{'id':entity.employee.id}) }}">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    show
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-xs btn-link" href="#">
+                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                    edit
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock container_fluid %}
+
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+{% endblock script %}
+

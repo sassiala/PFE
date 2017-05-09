@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\WorkingHoursReport" table="working_hours_report">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="title" type="string" column="title" length="30" nullable="true"/>
+    <field name="dateFrom" type="date" column="date_from" nullable="false"/>
+    <field name="dateTo" type="date" column="date_to" nullable="false"/>
+    <field name="theoricalWorkingHours" type="float" column="theorical_working_hours" nullable="false"/>
+    <field name="actualWorkingHours" type="float" column="actual_working_hours" nullable="false"/>
+    <field name="theoricalWorkingDays" type="float" column="theorical_working_days" nullable="false"/>
+    <field name="actualWorkingDays" type="float" column="actual_working_days" nullable="false"/>
+    <field name="paidLeaveDays" type="float" column="paid_leave_days" nullable="false"/>
+    <field name="paidLeaveHours" type="float" column="paid_leave_hours" nullable="false"/>
+    <field name="holidays" type="float" column="holidays" nullable="false"/>
+    <many-to-one field="employee" target-entity="Employee">
+      <join-columns>
+        <join-column name="employee_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

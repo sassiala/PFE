@@ -1,0 +1,128 @@
+<?php
+
+namespace AGEPE\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TimeShift
+ */
+class TimeShift
+{
+    /**
+     * @var string
+     */
+    private $shiftName;
+
+    /**
+     * @var integer
+     */
+    private $weeklyOffDays;
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $timeSlot;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->timeSlot = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set shiftName
+     *
+     * @param string $shiftName
+     * @return TimeShift
+     */
+    public function setShiftName($shiftName)
+    {
+        $this->shiftName = $shiftName;
+    
+        return $this;
+    }
+
+    /**
+     * Get shiftName
+     *
+     * @return string 
+     */
+    public function getShiftName()
+    {
+        return $this->shiftName;
+    }
+
+    /**
+     * Set weeklyOffDays
+     *
+     * @param integer $weeklyOffDays
+     * @return TimeShift
+     */
+    public function setWeeklyOffDays($weeklyOffDays)
+    {
+        $this->weeklyOffDays = $weeklyOffDays;
+    
+        return $this;
+    }
+
+    /**
+     * Get weeklyOffDays
+     *
+     * @return integer 
+     */
+    public function getWeeklyOffDays()
+    {
+        return $this->weeklyOffDays;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add timeSlot
+     *
+     * @param \AGEPE\AdminBundle\Entity\TimeSlot $timeSlot
+     * @return TimeShift
+     */
+    public function addTimeSlot(\AGEPE\AdminBundle\Entity\TimeSlot $timeSlot)
+    {
+        $this->timeSlot[] = $timeSlot;
+    
+        return $this;
+    }
+
+    /**
+     * Remove timeSlot
+     *
+     * @param \AGEPE\AdminBundle\Entity\TimeSlot $timeSlot
+     */
+    public function removeTimeSlot(\AGEPE\AdminBundle\Entity\TimeSlot $timeSlot)
+    {
+        $this->timeSlot->removeElement($timeSlot);
+    }
+
+    /**
+     * Get timeSlot
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimeSlot()
+    {
+        return $this->timeSlot;
+    }
+}

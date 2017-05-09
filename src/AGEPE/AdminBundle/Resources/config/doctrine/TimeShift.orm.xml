@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AGEPE\AdminBundle\Entity\TimeShift" table="time_shift">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="shiftName" type="string" column="shift_name" length="30" nullable="true"/>
+    <field name="weeklyOffDays" type="integer" column="weekly_off_days" nullable="true"/>
+    <many-to-many field="timeSlot" target-entity="TimeSlot" inversed-by="timeShift">
+      <join-table name="time_shift_slot">
+        <join-columns>
+          <join-column name="time_shift_id" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="time_slot_id" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

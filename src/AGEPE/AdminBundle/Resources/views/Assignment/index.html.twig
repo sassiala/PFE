@@ -1,0 +1,97 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    List Assignment-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    LIST OF ALL ASSIGNMENT
+{% endblock title_head_bar %}
+
+{% block container_fluid %}
+
+    <div class="row page-header">
+        <form method="post">
+            <div class=" col-sm-8">
+            </div>
+            <h1 class=" col-sm-2 ">
+                <input type="date" name="asDate" class="form-control btn-md center-block" value="{{ date }}">
+            </h1>
+            <h1 class=" col-sm-2">
+            <button type="submit" name="search" class=" form-control btn btn-warning btn-md center-block">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                Search by date
+            </button>
+            </h1>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="mydata">
+            <thead>
+            <tr class="bg-primary text-white">
+                <th class="col-lg-3">Employee</th>
+                <th class="col-lg-2">From date</th>
+                <th class="col-lg-2">To date</th>
+                <th class="col-lg-1">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for entity in entities %}
+
+                <tr>
+
+                    <td>
+                        <a href="{{ path('employee_show',{'id':entity.employee.id}) }}">
+                            {{ entity.employee.firstName~' '~ entity.employee.lastName}}
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="#">
+                            {{ entity.fromDate|date('Y-m-d') }}
+                        </a>
+                    </td>
+
+                        {% if entity.toDate %}
+                            <td>
+                                {{ entity.toDate|date('Y-m-d') }}
+                            </td>
+                        {% else %}
+                            <td class="bg-warning text-white">
+                                {{ 'NOT DEFINE' }}
+                            </td>
+                        {% endif %}
+
+                    <td>
+                        <ul>
+                            <li>
+                                <a class="btn btn-xs btn-link" href="{{ path('assignment_show',{'id':entity.employee.id}) }}">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    show
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-xs btn-link" href="{{ path('assignment_edit',{'id':entity.id}) }}">
+                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                    edit
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock container_fluid %}
+
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+{% endblock script %}
+
