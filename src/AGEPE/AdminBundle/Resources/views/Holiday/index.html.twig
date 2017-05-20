@@ -12,15 +12,22 @@
 
     <div class="form-group">
         <div class="row page-header col-lg-12">
+            <div class="col-lg-1">
+                <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                    </span>
+                </a>
+            </div>
             <div class=" col-sm-2">
                 <a class="btn btn-default btn-lg" href="{{ path('holiday_new') }}">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     Add Holiday
                 </a>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
 
             </div>
+
             <div class=" col-sm-2">
                 <a class="btn btn-default btn-lg" href="#">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -30,7 +37,7 @@
         </div>
 
 
-        <div class="table-responsive col-sm-5">
+        <div class="table-responsive col-sm-6">
             <h1 class="page-header">
                 Holiday
             </h1>
@@ -69,14 +76,14 @@
             </table>
         </div>
 
-        <div class="table-responsive col-sm-7">
+        <div class="table-responsive col-sm-6">
             <h1 class="page-header">
                 Travel
             </h1>
             <table class="table table-bordered table-hover table-striped" id="myTravelData">
                 <thead>
                 <tr class="bg-primary text-white">
-                    <th class="col-sm-5">Title</th>
+                    <th class="col-sm-4">Title</th>
                     <th class="col-sm-2">From</th>
                     <th class="col-sm-2">To</th>
                     <th class="col-sm-1">Employee</th>

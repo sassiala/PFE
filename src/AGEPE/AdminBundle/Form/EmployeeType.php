@@ -23,7 +23,7 @@ class EmployeeType extends AbstractType
             ->add('identificationType','choice',array('choices'=>array('CIN'=>'CIN','PASSPORT'=>'PASSPORT')))
             ->add('identificationNumbre')
             ->add('joinDate','date')
-            ->add('departureDate','date',array('data'=>new \DateTime("now")))
+            ->add('departureDate','date')
             ->add('contractType','choice',array('choices'=>array('MONTHLY'=>'MONTHLY','DAILY'=>'DAILY','HOURLY'=>'HOURLY')))
         ;
     }

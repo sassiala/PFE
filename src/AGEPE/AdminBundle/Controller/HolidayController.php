@@ -42,7 +42,7 @@ class HolidayController extends Controller
      *
      * @Route("/", name="holiday_create")
      * @Method("POST")
-     * @Template("AGEPEAdminBundle:Holiday:new.html.twig")
+     * @Template("AGEPEAdminBundle:Holiday:newEmployee.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -176,7 +176,7 @@ class HolidayController extends Controller
      *
      * @Route("/{id}", name="holiday_update")
      * @Method("PUT")
-     * @Template("AGEPEAdminBundle:Holiday:edit.html.twig")
+     * @Template("AGEPEAdminBundle:Holiday:editEmployee.html.twig")
      */
     public function updateAction(Request $request, $id)
     {

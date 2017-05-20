@@ -26,21 +26,21 @@
 #}
 {% block container_fluid %}
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header col-lg-8">
-                ADD EMPLOYE
-            </h1>
 
-            <h1 class=" col-lg-2">
-                <a class="btn btn-default btn-xs" href="{{ path('employee') }}">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
-                </span>
-                    Back to the list
+    <div class="row page-header">
+        <div class="col-lg-12">
+            <h1 class="col-lg-1">
+                <a class="btn btn-primary btn-lg" href="{{ path('employee') }}">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                        </span>
                 </a>
+            </h1>
+            <h1 class="col-lg-8">
+                ADD EMPLOYE
             </h1>
         </div>
     </div>
+
 
 
     <div class="well">
@@ -54,15 +54,14 @@
                 {# Génération de l'input. #}
                 {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
             </div>
-        </div>
 
-        <div class="form-group">
             {{ form_label(form.lastName, "Last Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
             <div class="col-sm-3">
                 {# Génération de l'input. #}
                 {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
+
 
         <div class="form-group">
             {{ form_label(form.sexe, "Sexe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
@@ -72,7 +71,7 @@
             </div>
 
             {{ form_label(form.phoneNumbre, "Phone Number :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 {# Génération de l'input. #}
                 {{ form_widget(form.phoneNumbre, {'attr': {'class': 'form-control'}})}}
             </div>
@@ -87,7 +86,7 @@
             </div>
 
             {{ form_label(form.identificationNumbre, "Identification Numbre :", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 {# Génération de l'input. #}
                 {{ form_widget(form.identificationNumbre,{'attr': {'class': 'form-control'}})}}
             </div>
@@ -111,9 +110,12 @@
         <div class="form-group">
 
             {{ form_label(form.departureDate, "Departure Date :", {'label_attr': {'class': 'col-sm-7 control-label'}}) }}
-            <div class="col-sm-3">
+            <div class="col-sm-3" id="departureDate" hidden="true">
                 {# Génération de l'input. #}
-                {{ form_widget(form.departureDate, {'attr': {'class': 'form-control'}})}}
+                {{ form_widget(form.departureDate, {'attr': {'class': 'form-control btn-md center-block'}})}}
+            </div>
+            <div class="btn btn-link" id="show">
+                <span id="plus" class="fa fa-plus"></span>
             </div>
         </div>
 
@@ -136,7 +138,7 @@
 
         <div class="form-group">
 
-            <div class="col-lg-8"></div>
+            <div class="col-lg-4"></div>
             <div class="relative col-xs-2">
                 {# Génération de l'input. #}
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success form-control'}})}}
@@ -149,5 +151,9 @@
 
 
 {% endblock container_fluid %}
+
+{% block script %}
+    <script src="{{ asset('js/testAla.js') }}"></script>
+{% endblock script %}
 
 

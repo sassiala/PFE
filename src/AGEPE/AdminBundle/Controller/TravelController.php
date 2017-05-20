@@ -40,7 +40,7 @@ class TravelController extends Controller
      *
      * @Route("/", name="travel_create")
      * @Method("POST")
-     * @Template("AGEPEAdminBundle:Travel:new.html.twig")
+     * @Template("AGEPEAdminBundle:Travel:newEmployee.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -174,7 +174,7 @@ class TravelController extends Controller
      *
      * @Route("/{id}", name="travel_update")
      * @Method("PUT")
-     * @Template("AGEPEAdminBundle:Travel:edit.html.twig")
+     * @Template("AGEPEAdminBundle:Travel:editEmployee.html.twig")
      */
     public function updateAction(Request $request, $id)
     {

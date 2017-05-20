@@ -49,25 +49,6 @@ class dailyWorkCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $array=array();
-        array_push($array,array('name'=>'ala','slot'=>'08:00 => 09:00','test'=>null));
-        for($i=0;$i<5;$i++)
-        {
-            $bool=true;
-            foreach ($array as $a)
-            {
-                if($a['name']=='wassim')
-                {
-                    $bool=false;
-                    break;
-                }
-            }
-            if($bool)
-            {
-                array_push($array,array('name'=>'wassim','slot'=>'08:00 => 09:00'));
-            }
-        }
-print_r($array[1]['name']);die();
         // get prcoessing date from arguments, set it to today if not provided
         // ------------------- ----------------------------------------------------
         $date = $input->getArgument('date');
@@ -258,6 +239,10 @@ print_r($array[1]['name']);die();
                             $journal->setMachineInterfaceTo(null);
                             $journal->setEmployee($employee);
                             $journal->setHoliday(null);
+
+
+                            if($paidLeave)
+                                $journal->setPaidLeave($paidLeave);
 
                             if($holidays)
                                 $journal->setHoliday($holidays);
@@ -656,7 +641,7 @@ print_r($array[1]['name']);die();
                 $min=$var;
             }
         }
-        //$this->UpdateFieldTreatedDate($punchCloser->getId(), $date);
+        $this->UpdateFieldTreatedDate($punchCloser->getId(), $date);
         return $punchCloser;
     }
 
@@ -810,7 +795,7 @@ print_r($array[1]['name']);die();
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $paidLeave;
+        return $paidLeave ;
     }
 
     /*

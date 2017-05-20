@@ -10,15 +10,19 @@
 
 {% block container_fluid %}
 
-    <div class="row">
-        <h1 class=" col-lg-8"> "{{ entity.lastName }}'s" details ..</h1>
-        <h1 class=" col-lg-2">
-            <a class="btn btn-default btn-xs" href="{{ path('employee') }}">
+    <div class="row page-header">
+
+        <h1 class="col-lg-1">
+            <a class="btn btn-primary btn-lg" href="{{ path('employee') }}">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
-                </span>
-                Back to the list
+                    </span>
             </a>
         </h1>
+        <h1 class="col-lg-6"> "{{ entity.lastName }}'s" details ..</h1>
+            <h1 class="col-lg-4">
+
+            </h1>
+
     </div>
 
     <div class="table-responsive">
@@ -95,7 +99,7 @@
             Edit
         </a>
         <div class="col-lg-1"></div>
-        <a class="relative col-xs-2 btn btn-info " href="{{ path('assignment_new', { 'id': entity.id }) }}">
+        <a class="relative col-xs-2 btn btn-info " href="{{ path('assignment_by_employee', { 'id': entity.id }) }}">
             Add assignment
         </a>
     </div>

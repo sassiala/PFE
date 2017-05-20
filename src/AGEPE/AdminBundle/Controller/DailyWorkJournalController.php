@@ -27,80 +27,163 @@ class DailyWorkJournalController extends Controller
      * @Route("/", name="DailyWorkJournal")
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
 
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AGEPEAdminBundle:DailyWorkJournal')->findAll();
-   /*     $array=array();
-        $i=0;
-        foreach ($entity as $e)
-        {
-            $bool=true;
-            if($array)
-            {
-                //if($array[$i]['date']==$e->getAsDate() and $array[$i]['employee']==$e->getEmployee())
-                {
-                    $bool=false;
+
+        $array = array();
+        $i = 0;
+        foreach ($entity as $e) {
+
+            $bool = true;
+            if ($array) {
+                if ($array[$i-1]['date'] == $e->getAsDate() and $array[$i-1]['employee'] == $e->getEmployee()) {
+                    $bool = false;
                 }
             }
 
-
-            if($bool)//$entity n'existe pas dans l'array => add ligne
+            if ($bool)//$entity n'existe pas dans l'array => add ligne
             {
                 array_push($array,
-                    array('date'=>$e->getAsDate(),
-                            'employee'=>$e->getEmployee(),
-                        'slotFrom'=>$e->getSlotFrom(),
-                        'slotTo'=>$e->getSlotTo(),
-                        'slot2From'=>null,
-                        'slot2To'=>null,
+                    array(
+                        'id'            =>$e->getId(),
+                        'date'          => $e->getAsDate(),
+                        'employee'      => $e->getEmployee(),
+                        'slotFrom'      => $e->getSlotFrom(),
+                        'slotTo'        => $e->getSlotTo(),
+                        'slot2From'     => null,
+                        'slot2To'       => null,
 
-                        'computedFrom'=>$e->getComputedFrom(),
-                        'computedTo'=>$e->getComputedTo(),
-                        'computed2From'=>null,
-                        'computed2To'=>null,
+                        'computedFrom'  => $e->getComputedFrom(),
+                        'computedTo'    => $e->getComputedTo(),
+                        'computed2From' => null,
+                        'computed2To'   => null,
 
-                        'punchFrom'=>$e->getMachineInterfaceFrom(),
-                        'punchTo'=>$e->getMachineInterfaceTo(),
-                        'punch2From'=>null,
-                        'punch2To'=>null,
+                        'punchFrom'     => $e->getMachineInterfaceFrom(),
+                        'punchTo'       => $e->getMachineInterfaceTo(),
+                        'punch2From'    => null,
+                        'punch2To'      => null,
 
-                        'paidLeave'=>$e->getPaidLeave(),
-                        'paid2Leave'=>$e->getPaidLeave(),
+                        'paidLeave'     => $e->getPaidLeave(),
+                        'paid2Leave'    => null,
 
-                        'holiday'=>$e->getHoliday(),
-                        'dayOff'=>$e->getDayOff(),
-                        'weeklyDayOff'=>$e->getweeklyDayOff(),
-                        'travel'=>$e->getTravel(),
-                        ));
+                        'holiday'       => $e->getHoliday(),
+                        'dayOff'        => $e->getDayOff(),
+                        'weeklyDayOff'  => $e->getWeeklyDayOff(),
+                        'travel'        => $e->getTravel(),
+                    ));
                 $i++;
             }
-            else
+            else {
+
+                $array[$i-1]['slot2From']       = $e->getSlotFrom();
+                $array[$i-1]['slot2To']         = $e->getSlotTo();
+                $array[$i-1]['computed2From']   = $e->getComputedFrom();
+                $array[$i-1]['computed2To']     = $e->getComputedTo();
+                $array[$i-1]['punch2From']      = $e->getMachineInterfaceFrom();
+                $array[$i-1]['punch2To']        = $e->getMachineInterfaceTo();
+                $array[$i-1]['paid2Leave']      = $e->getPaidLeave();
+
+
+                if($array[$i-1]['dayOff'] and $e->getDayOff())
+                    $array[$i-1]['dayOff']=true;
+                else
+                    $array[$i-1]['dayOff']=false;
+
+
+
+            }
+        }
+        return $this->render('AGEPEAdminBundle:DailyWorkJournal:index.html.twig',
+            array('entities' => $array));
+    }
+
+    /**
+     * Lists all DailyWorkJournal entities.
+     *
+     * @Route("/{id}/show/", name="DailyWorkJournal_show")
+     * @Template()
+     */
+    public function showDWJAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AGEPEAdminBundle:DailyWorkJournal')->findAll();
+
+        $array = array();
+        $i = 0;
+        foreach ($entity as $e) {
+
+            $bool = true;
+            if ($array) {
+                if ($array[$i-1]['date'] == $e->getAsDate() and $array[$i-1]['employee'] == $e->getEmployee()) {
+                    $bool = false;
+                }
+            }
+
+            if ($bool)//$entity n'existe pas dans l'array => add ligne
             {
-                $array[$i]['slot2From']=$e->getSlotFrom();
-                $array[$i]['slot2To']=$e->getSlotTo();
-                $array[$i]['computed2From']=$e->getComputedFrom();
-                $array[$i]['computed2To']=$e->getComputedTo();
-                $array[$i]['punch2From']=$e->getMachineInterfaceFrom();
-                $array[$i]['punch2To']=$e->getMachineInterfaceTo();
-                $array[$i]['paid2Leave']=$e->getPaidLeave();
+                array_push($array,
+                    array(
+                        'id'            =>$e->getId(),
+                        'date'          => $e->getAsDate(),
+                        'employee'      => $e->getEmployee(),
+                        'slotFrom'      => $e->getSlotFrom(),
+                        'slotTo'        => $e->getSlotTo(),
+                        'slot2From'     => null,
+                        'slot2To'       => null,
+
+                        'computedFrom'  => $e->getComputedFrom(),
+                        'computedTo'    => $e->getComputedTo(),
+                        'computed2From' => null,
+                        'computed2To'   => null,
+
+                        'punchFrom'     => $e->getMachineInterfaceFrom(),
+                        'punchTo'       => $e->getMachineInterfaceTo(),
+                        'punch2From'    => null,
+                        'punch2To'      => null,
+
+                        'paidLeave'     => $e->getPaidLeave(),
+                        'paid2Leave'    => null,
+
+                        'holiday'       => $e->getHoliday(),
+                        'dayOff'        => $e->getDayOff(),
+                        'weeklyDayOff'  => $e->getWeeklyDayOff(),
+                        'travel'        => $e->getTravel(),
+                    ));
+                $i++;
+            }
+            else {
+
+                $array[$i-1]['slot2From']       = $e->getSlotFrom();
+                $array[$i-1]['slot2To']         = $e->getSlotTo();
+                $array[$i-1]['computed2From']   = $e->getComputedFrom();
+                $array[$i-1]['computed2To']     = $e->getComputedTo();
+                $array[$i-1]['punch2From']      = $e->getMachineInterfaceFrom();
+                $array[$i-1]['punch2To']        = $e->getMachineInterfaceTo();
+                $array[$i-1]['paid2Leave']      = $e->getPaidLeave();
+
+
+                if($array[$i-1]['dayOff'] and $e->getDayOff())
+                    $array[$i-1]['dayOff']=true;
+                else
+                    $array[$i-1]['dayOff']=false;
+
+
+
             }
         }
 
-        var_dump(sizeof($array));
-        die();
-        foreach ($array as $a=>$arr)
+        foreach ($array as $a)
         {
-            foreach ($arr as $b)
+            if($a['id']==$id)
             {
-                    var_dump('fuck');
+                return $this->render('AGEPEAdminBundle:DailyWorkJournal:showDWJ.html.twig',
+                    array('entity' => $a));
             }
         }
-        die();
-*/
-        return $this->render('AGEPEAdminBundle:DailyWorkJournal:index.html.twig',
-            array('entities'=>$entity));
     }
 }

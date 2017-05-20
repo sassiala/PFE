@@ -34,124 +34,200 @@
     </div>
 #}
         <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped" id="mydata">
+            <table class="table table-bordered table-hover table-striped col-lg-12" id="mydata">
                 <thead>
-                <tr class="bg-primary text-white">
+                <tr class="bg-primary text-white ">
+                    <th class="col-sm-1">status</th>
                     <th class="col-lg-2">Date</th>
                     <th class="col-lg-2">Employee</th>
-                    <th class="col-lg-1">Slot</th>
-                    <th class="col-lg-1">Computed</th>
-                    <th class="col-lg-1">Punch</th>
-                    <th class="col-lg-1">Travel</th>
+                    <th class="col-lg-2">Slot</th>
+                    <th class="col-lg-2">Punch</th>
+                    <th class="col-lg-2">Computed</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
+
                 {% for entity in entities %}
 
                         <tr>
+
                             <td>
-                                {{ entity.asDate|date('d-m-Y') }}
+                                {% if (entity['slotFrom']==false and entity['slotTo']==false and entity['slot2From']==false and entity['slot2To']==false)%}
+                                    <ul class="bg-warning">
+                                        <li>
+                                            warning
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {% if  entity['dayOff']==false  %}
+                                        <ul class="bg-success">
+                                            <li>
+                                                present
+                                            </li>
+                                        </ul>
+                                    {% else %}
+                                        <ul class="bg-danger">
+                                            <li>
+                                                absent
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if entity['holiday'] == true %}
+                                    <ul class="bg-warning text-white">
+                                        {{ entity['date']|date('d-m-Y') }}<br>
+                                        <b>is Holiday</b>
+                                    </ul>
+                                {% else %}
+                                    <ul class="center-block">
+                                        {{ entity['date']|date('d-m-Y') }}
+                                    </ul>
+
+                                {% endif %}
                             </td>
                             <td>
-                                <a href="{{ path('employee_show',{'id':entity.employee.id}) }}">
-                                {{ entity.employee.firstName~' '~ entity.employee.lastName}}
+                                <a href="{{ path('employee_show',{'id':entity['employee'].id}) }}">
+                                {{ entity['employee'].firstName~' '~ entity['employee'].lastName}}
                                 </a>
                             </td>
 
+                            {% if  entity['slotFrom']==true %}
+                                {% set slotFrom=entity['slotFrom']|date('G:i') %}
+                            {% else %}
+                                {% set slotFrom='null' %}
+                            {% endif %}
+
+                            {% if  entity['slotTo']==true %}
+                                {% set slotTo=entity['slotTo']|date('G:i') %}
+                            {% else %}
+                                {% set slotTo='null' %}
+                            {% endif %}
+
+                            {% if  entity['slot2From']==true %}
+                                {% set slot2From=entity['slot2From']|date('G:i') %}
+                            {% else %}
+                                {% set slot2From='null' %}
+                            {% endif %}
+
+                            {% if  entity['slot2To']==true %}
+                                {% set slot2To=entity['slot2To']|date('G:i') %}
+                            {% else %}
+                                {% set slot2To='null' %}
+                            {% endif %}
+
                             <td>
-                                {% if entity.slotFrom == true and entity.slotTo == true %}
-                                    <ul>
-                                        <li>
-                                            {{ entity.slotFrom|date('G:i')}}
-                                        </li>
-                                        <li>
-                                            {{ entity.slotTo|date('G:i')}}
-                                        </li>
-                                    </ul>
-                                {% elseif entity.slotFrom == true %}
-                                        <ul class="bg-info text-white">
-                                            From
-                                            {{ entity.slotFrom|date('G:i')}}
-                                        </ul>
-                                    {% elseif entity.slotTo == true %}
-                                            <ul class="bg-info text-white">
-                                                To
-                                                {{ entity.slotTo|date('G:i')}}
-                                            </ul>
-                                        {% else %}
-                                            <ul class=" bg-warning text-white">
-                                                Not define
-                                            </ul>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if entity.computedFrom == true and entity.computedTo == true %}
-                                    <ul>
-                                        <li>
-                                            {{ entity.computedFrom|date('G:i')}}
-                                        </li>
-                                        <li>
-                                            {{ entity.computedTo|date('G:i')}}
-                                        </li>
-                                    </ul>
-                                {% elseif entity.computedFrom == true %}
-                                    <ul class="bg-info text-white">
-                                        From
-                                        {{ entity.computedFrom|date('G:i')}}
-                                    </ul>
-                                {% elseif entity.computedTo == true %}
-                                    <ul class="bg-info text-white">
-                                        To
-                                        {{ entity.computedTo|date('G:i')}}
+                                {% if slotFrom=='null' and slotTo=='null' and slot2To=='null' and slot2From=='null' %}
+                                    <ul class="bg-warning text-white">
+                                        Not Found
                                     </ul>
                                 {% else %}
-                                    <ul class="bg-warning text-white">
-                                        Not define
+                                    <ul>
+                                        <li>
+                                            {{ slotFrom~' -> '~slotTo}}
+                                        </li>
+                                        <li>
+                                            {{ slot2From~' -> '~slot2To}}
+                                        </li>
                                     </ul>
                                 {% endif %}
                             </td>
 
-                            <td>
+                            {% if  entity['punchFrom']==true %}
+                                {% set punchFrom=entity['punchFrom'].punchTime()|date('G:i') %}
+                            {% else %}
+                                {% set punchFrom='null' %}
+                            {% endif %}
 
-                                {% if entity.machineInterfaceFrom == true and entity.machineInterfaceTo == true %}
+                            {% if  entity['punchTo']==true %}
+                                {% set punchTo=entity['punchTo'].punchTime()|date('G:i') %}
+                            {% else %}
+                                {% set punchTo='null' %}
+                            {% endif %}
+
+                            {% if  entity['punch2From']==true %}
+                                {% set punch2From=entity['punch2From'].punchTime()|date('G:i') %}
+                            {% else %}
+                                {% set punch2From='null' %}
+                            {% endif %}
+
+                            {% if  entity['punch2To']==true %}
+                                {% set punch2To=entity['punch2To'].punchTime()|date('G:i') %}
+                            {% else %}
+                                {% set punch2To='null' %}
+                            {% endif %}
+
+                            <td>
+                                {% if punchFrom=='null' and punchTo=='null' and punch2To=='null' and punch2From=='null' %}
+                                    <ul class="bg-warning text-white">
+                                        Not Found
+                                    </ul>
+                                {% else %}
                                     <ul>
                                         <li>
-                                            {{ entity.machineInterfaceFrom.punchTime|date('G:i')}}
+                                            {{ punchFrom~' -> '~punchTo}}
                                         </li>
                                         <li>
-                                            {{ entity.machineInterfaceTo.punchTime|date('G:i')}}
+                                            {{ punch2From~' -> '~punch2To}}
                                         </li>
                                     </ul>
-                                {% elseif entity.machineInterfaceFrom == true %}
-                                    <ul class="bg-info text-white">
-                                        From
-                                        {{ entity.machineInterfaceFrom.punchTime|date('G:i')}}
-                                    </ul>
-                                {% elseif entity.machineInterfaceTo == true %}
-                                    <ul class="bg-info text-white">
-                                        To
-                                        {{ entity.machineInterfaceTo.punchTime|date('G:i')}}
-                                    </ul>
-                                {% else %}
-                                    <ul class="bg-warning text-white">
-                                        Not define
-                                    </ul>
                                 {% endif %}
-                        </td>
+                            </td>
+
+                            {% if  entity['computedFrom']==true %}
+                                {% set computedFrom=entity['computedFrom']|date('G:i') %}
+                            {% else %}
+                                {% set computedFrom='null' %}
+                            {% endif %}
+
+                            {% if  entity['computedTo']==true %}
+                                {% set computedTo=entity['computedTo']|date('G:i') %}
+                            {% else %}
+                                {% set computedTo='null' %}
+                            {% endif %}
+
+                            {% if  entity['computed2From']==true %}
+                                {% set computed2From=entity['computed2From']|date('G:i') %}
+                            {% else %}
+                                {% set computed2From='null' %}
+                            {% endif %}
+
+                            {% if  entity['computed2To']==true %}
+                                {% set computed2To=entity['computed2To']|date('G:i') %}
+                            {% else %}
+                                {% set computed2To='null' %}
+                            {% endif %}
 
                             <td>
-                                {% if entity.travel == true %}
-                                    <a href="{{ path('travel_show',{'id':entity.travel.id}) }}">
-                                        <p>in Travel</p></br>
-                                        <p>from {{ entity.travel.fromDate|date('y-m-d') }}</p></br>
-                                        <p>from {{ entity.travel.toDate|date('y-m-d') }}</p>
-                                    </a>
-                                {% else %}
+                                {% if computedFrom=='null' and computedTo=='null' and computed2To=='null' and computed2From=='null' %}
                                     <ul class="bg-warning text-white">
-                                        Not Travel
+                                        Not Found
+                                    </ul>
+                                {% else %}
+                                    <ul>
+                                        <li>
+                                            {{ computedFrom~' -> '~computedTo}}
+                                        </li>
+                                        <li>
+                                            {{ computed2From~' -> '~computed2To}}
+                                        </li>
                                     </ul>
                                 {% endif %}
+                            </td>
+
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-xs btn-link" href="{{ path('DailyWorkJournal_show',{'id': entity['id'] }) }}">
+                                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                            show
+                                        </a>
+                                    </li>
+                                </ul>
                             </td>
 
                         </tr>

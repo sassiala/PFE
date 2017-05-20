@@ -18,29 +18,47 @@ use AGEPE\AdminBundle\Form\EmployeeType;
 class EmployeeController extends Controller
 {
 
+
     /**
      * Lists all Employee entities.
      *
-     * @Route("/", name="employee")
-     * @Method("GET")
+     * @Route("/index", name="employee")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $requestIndex)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AGEPEAdminBundle:Employee')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        if ($requestIndex->isMethod('POST')) {
+            $date = $requestIndex->request->get('asDate');
+
+            $entities = $em->createQueryBuilder()->select('a')
+                ->from('AGEPEAdminBundle:Employee', 'a')
+                ->andwhere(':date >= a.joinDate ')
+                ->andwhere('a.departureDate IS NULL OR :date <= a.departureDate')
+                ->setParameter('date', $date)
+                ->getQuery()
+                ->getResult();
+
+
+            return $this->render('AGEPEAdminBundle:Employee:indexEmployee.html.twig',
+                array('entities' => $entities, 'date' => $date));
+
+
+        }
+
+        return $this->render('AGEPEAdminBundle:Employee:indexEmployee.html.twig',
+            array('entities' => $entities, 'date' => null));
     }
+
     /**
      * Creates a new Employee entity.
      *
-     * @Route("/", name="employee_create")
+     * @Route("/new/create", name="employee_create")
      * @Method("POST")
-     * @Template("AGEPEAdminBundle:Employee:new.html.twig")
+     * @Template("AGEPEAdminBundle:Employee:newEmployee.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -49,8 +67,15 @@ class EmployeeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //TODO: verifier l'existance d'Identification number
-            //TODO: doit etre unique
+
+            $joinDate=$form->get('joinDate')->getData();
+            $departureDate=$form->get('departureDate')->getData();
+
+
+            if($departureDate<=$joinDate)
+                $entity->setDepartureDate(null);
+
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -58,11 +83,13 @@ class EmployeeController extends Controller
             return $this->redirect($this->generateUrl('employee_show', array('id' => $entity->getId())));
         }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return $this->render("AGEPEAdminBundle:Employee:newEmployee.html.twig",
+            array(
+                'entity' => $entity,
+                'form'   => $form->createView(),
+            ));
     }
+
 
     /**
      * Creates a form to create a Employee entity.
@@ -73,10 +100,15 @@ class EmployeeController extends Controller
      */
     private function createCreateForm(Employee $entity)
     {
+
+
         $form = $this->createForm(new EmployeeType(), $entity, array(
             'action' => $this->generateUrl('employee_create'),
             'method' => 'POST',
         ));
+
+        $form->get('joinDate')->setData(new \DateTime("now"));
+        $form->get('departureDate')->setData(new \DateTime("00-00-0000"));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -90,10 +122,12 @@ class EmployeeController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newEmployeeAction()
     {
         $entity = new Employee();
         $form   = $this->createCreateForm($entity);
+
+
 
         return array(
             'entity' => $entity,
@@ -101,12 +135,116 @@ class EmployeeController extends Controller
         );
     }
 
+
+
+
+
+
+    /**
+     * Displays a form to edit an existing Employee entity.
+     *
+     * @Route("/{id}/edit", name="employee_edit")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editEmployeeAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Employee entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        //$deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Creates a form to edit a Employee entity.
+     *
+     * @param Employee $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Employee $entity)
+    {
+        $form = $this->createForm(new EmployeeType(), $entity, array(
+            'action' => $this->generateUrl('employee_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+
+        $form->get('joinDate')->setData
+        (new \DateTime($entity->getJoinDate()->format('d-m-Y')));
+
+        if($entity->getDepartureDate() == null)
+            $form->get('departureDate')->setData(new \DateTime("00-00-0000"));
+        else
+            $form->get('departureDate')->setData
+            (new \DateTime($entity->getDepartureDate()->format('d-m-Y')));
+
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+
+    /**
+     * Edits an existing Employee entity.
+     *
+     * @Route("/{id}", name="employee_update")
+     * @Method("PUT")
+     * @Template("AGEPEAdminBundle:Employee:editEmployee.html.twig")
+     */
+    public function updateAction(Request $requestUpdate, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Employee entity.');
+        }
+
+       // $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($requestUpdate);
+
+        if ($editForm->isValid()) {
+
+            $joinDate=$editForm->get('joinDate')->getData();
+            $departureDate=$editForm->get('departureDate')->getData();
+
+            if($departureDate<=$joinDate)
+                $entity->setDepartureDate(null);
+
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('employee_show', array('id' => $id)));
+        }
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
+        );
+    }
+
     /**
      * Finds and displays a Employee entity.
      *
-     * @Route("/{id}", name="employee_show")
+     * @Route("/{id}/show", name="employee_show")
      * @Method("GET")
-     * @Template()
+     * @Template("AGEPEAdminBundle:Employee:showEmployee.html.twig")
      */
     public function showAction($id)
     {
@@ -118,147 +256,52 @@ class EmployeeController extends Controller
             throw $this->createNotFoundException('Unable to find Employee entity.');
         }
 
-        $deleteForm = $this->createOutForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         );
     }
 
-    /**
-     * Displays a form to edit an existing Employee entity.
-     *
-     * @Route("/{id}/edit", name="employee_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Employee entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createOutForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a Employee entity.
-    *
-    * @param Employee $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Employee $entity)
-    {
-        $form = $this->createForm(new EmployeeType(), $entity, array(
-            'action' => $this->generateUrl('employee_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Employee entity.
-     *
-     * @Route("/{id}", name="employee_update")
-     * @Method("PUT")
-     * @Template("AGEPEAdminBundle:Employee:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Employee entity.');
-        }
-
-        $deleteForm = $this->createOutForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('employee_show', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+/*
     /**
      * Deletes a Employee entity.
      *
-     * @Route("/{id}", name="employee_out")
-     *
+     * @Route("/{id}/delete", name="employee_delete")
+     * @Method("DELETE")
      */
-    public function DepatureAction(Request $request, $id)
+    /*public function deleteAction(Request $requestDelete, $id)
     {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($requestDelete);
 
-        $form = $this->createOutForm($id);
-        $form->handleRequest($request);
         if ($form->isValid()) {
-
-            //var_dump($form->get('date')->getData()->format('Y-m-d'));die();
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
+
+            $entityInAssignment = $em->getRepository('AGEPEAdminBundle:Assignment')->findOneByEmployee($entity);
+            $entityInMachineInterface = $em->getRepository('AGEPEAdminBundle:MachineInterface')
+                ->findOneByEmployee($entity);
+
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Employee entity.');
             }
-            $departure_date=$form->get('date')->getData();
-            $q = $em->createQueryBuilder()
-                ->update('AGEPEAdminBundle:Employee', 'e')
-                ->set('e.departureDate',':date')
-                ->where('e.id = :id')
-                ->setParameter('id', $id)
-                ->setParameter('date',$departure_date->format('Y-m-d') )
-                ->getQuery()
-                ->execute();
 
-            return $this->redirect($this->generateUrl('employee_show',array('id'=>$id)));
-
+            if(!$entityInAssignment and !$entityInMachineInterface)
+            {
+                $em->remove($entity);
+                $em->flush();
+            }
+            else
+            {
+                return $this->redirect($this->generateUrl('employee_show',array('id'=>$id)));
+            }
         }
 
         return $this->redirect($this->generateUrl('employee'));
     }
-    /*public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AGEPEAdminBundle:Employee')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Employee entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('employee'));
-    }*/
 
     /**
      * Creates a form to delete a Employee entity by id.
@@ -267,13 +310,14 @@ class EmployeeController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createOutForm($id)
+    /*private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('employee_out', array('id' => $id)))
-            ->add('date','date',array('data' => new \DateTime("now")))
-            ->add('submit', 'submit', array('label' => 'Contract Finished'))
+            ->setAction($this->generateUrl('employee_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
-    }
+    }*/
+
 }

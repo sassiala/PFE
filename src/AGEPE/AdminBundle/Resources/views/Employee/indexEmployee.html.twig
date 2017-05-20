@@ -9,34 +9,29 @@
 {% endblock title_head_bar %}
 
 {% block container_fluid %}
-{#
-    <div class="row">
-
-        <div class="col-sm-11 page-header">
-            <div class="col-sm-9">
-                <h1 class="">
-                    Employee list
-                </h1>
-            </div>
-            <div class=" col-sm-2">
-                <a class="btn btn-default btn-lg" href="{{ path('employee_new') }}">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    Create a new Employee
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-#}
 
     <div class="row page-header">
-        <div class=" col-sm-2">
+        <h1 class="col-lg-8">
+            <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">
+            <span class="glyphicon glyphicon-home" aria-hidden="true">
+                </span>
+            </a>
             <a class="btn btn-default btn-lg" href="{{ path('employee_new') }}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 Create a new Employee
             </a>
-        </div>
+        </h1>
+        <form method="post">
+            <h1 class=" col-sm-2 ">
+                <input type="date" name="asDate" class="form-control btn-md center-block" value="{{ date }}">
+            </h1>
+            <h1 class=" col-sm-2">
+                <button type="submit" name="search" class=" form-control btn btn-warning btn-md center-block">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Employee active
+                </button>
+            </h1>
+        </form>
     </div>
 
     <div class="table-responsive">

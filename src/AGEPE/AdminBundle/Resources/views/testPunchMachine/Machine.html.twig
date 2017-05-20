@@ -1,0 +1,41 @@
+{% extends '::theme.html.twig' %}
+
+{% block container_fluid %}
+    <form method="post">
+
+        <div class="row">
+            <br/><br/>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-4">
+
+                <span class="col-lg-2 fa fa-hand-o-right  fa-4x bg-info"></span>
+
+                <h1 class="bg-info">select One :</h1>
+            </div>
+            <h1 class="col-lg-4 ">
+                <select name="employee">
+                    {% for entity in entities %}
+                        <option>{{ entity.id~" "~ entity.firstName }}</option>
+                    {% endfor %}
+                </select>
+            </h1>
+
+        </div>
+
+        <div class="row">
+            <br/><br/><br/><br/><br/><br/>
+            <br/><br/>
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <span class="col-lg-2 fa fa-hand-o-right  fa-4x bg-info"></span>
+                <h1 class="bg-info">punch here ==></h1>
+            </div>
+            <button type="submit" class="btn btn-info btn-lg">
+                <span class="fa fa-thumbs-up  fa-5x "></span>
+            </button>
+        </div>
+
+    </form>
+{% endblock container_fluid %}

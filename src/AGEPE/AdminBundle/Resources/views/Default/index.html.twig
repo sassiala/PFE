@@ -1,20 +1,195 @@
 {% extends '::Theme.html.twig' %}
 
 {% block container_fluid %}
-    <form id="myForm" method="post">
-        <div class="col-sm-2" id="cin">
-            <input id="cinText" type="text" class="form-control">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Dashboard <small>Statistics Overview</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-info"></i>{{ ' ' }}{{ dateNow|date('d-m-Y') }} is not HOLIDAY
+                </li>
+            </ol>
         </div>
-        <input id="btn" type="button" value="ok" onclick="test">
-    </form>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <i class="fa fa-info-circle"></i>
+                <strong>
+                    Daily work Journal For Today?
+                </strong>
+                {% if dailyWork == true %}
+                    <a href="{{ path('DailyWorkJournal') }}" class="alert-link">
+                        is treated
+                    </a>
+                {% else %}
+                    <a href="{{ path('DailyWorkJournal') }}" class="alert-link">
+                        is Not treated
+                    </a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ sizeOfEmployee }}</div>
+                            <div>Employee list!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <a href="{{ path('employee') }}">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-star-half-o fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+
+                            <div class="huge">{{ sizePaidLeave }}</div>
+                            <div>has paid Leave!</div>
+                        </div>
+                    </div>
+                </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-exclamation-triangle fa-5x"  aria-hidden="false"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">13</div>
+                            <div>Absent!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <span class="badge">just now</span>
+                            <i class="fa fa-fw fa-calendar"></i> Calendar updated
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">1 hour ago</span>
+                            <i class="fa fa-fw fa-user"></i> A new user has been added
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">2 hours ago</span>
+                            <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">yesterday</span>
+                            <i class="fa fa-fw fa-globe"></i> Saved the world
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">two days ago</span>
+                            <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
+                        </a>
+                    </div>
+                    <div class="text-right">
+                        <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-thumbs-up"></i> Employee present</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Punch time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set v=0 %}
+                                {% for entity in activeEmployee %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('employee_show',{'id':entity.id}) }}">
+
+                                                {{ entity.firstName~' '~ entity.lastName}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {% set v=v+7 %}
+                                            {% if v<10 %}
+                                                8:0{{ v }} AM
+                                            {% else %}
+                                                8:{{ v }} AM
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right">
+                        <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock container_fluid %}
-
- {% block javascript_head %}
-
-
- {% endblock javascript_head %}
-
-{% block script %}
-    <script src="{{ asset('js/testFeker.js') }}"></script>
-{% endblock script %}
