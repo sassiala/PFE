@@ -1,0 +1,77 @@
+{% extends '::theme.html.twig' %}
+
+{% block title %}
+    List MI-AGEPE
+{% endblock title %}
+
+{% block title_head_bar %}
+    LIST PUNCHES
+{% endblock title_head_bar %}
+
+
+{% block container_fluid %}
+    <div class="row page-header">
+        <h1 class="col-lg-8">
+            <a class="btn btn-primary btn-lg" href="{{ path('homepage') }}">
+                <span class="glyphicon glyphicon-home" aria-hidden="true">
+                    </span>
+            </a>
+            <a class="btn btn-default btn-lg" href="{{ path('Machine') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Punch Test
+            </a>
+        </h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="mydata">
+            <thead>
+            <tr class="bg-primary text-white">
+                <th>Employee</th>
+                <th>Import Date</th>
+                <th>Punch Time</th>
+                <th>treated</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('employee_show',{'id':entity.id}) }}">
+
+                                {{ entity.employee.firstName~' '~ entity.employee.lastName}}
+                            </a>
+                        </td>
+
+                        <td>
+                                {{ entity.importDate|date('Y-m-d')}}
+
+                        </td>
+                        <td>
+                            {{ entity.punchTime|date('G:i')}}
+
+                        </td>
+                        {% if entity.treatedDate==false %}
+                            <td class="bg-danger">
+                                notTreated
+                            </td>
+                        {% else %}
+                            <td class="bg-success">
+                                {{ entity.treatedDate|date('Y-m-d') }}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock container_fluid %}
+
+
+{% block script %}
+    <script>
+        $('#mydata').dataTable();
+    </script>
+{% endblock script %}

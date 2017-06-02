@@ -113,6 +113,53 @@ class AssignmentController extends Controller
 
     }
 
+
+    /**
+     * Lists all Assignment entities by Employee.
+     *
+     * @Route("/add/{id}", name="assignment_add")
+     */
+
+    public function assignmentAdd($id, Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $employee=$em->getRepository('AGEPEAdminBundle:Employee')->find($id);
+            $fromDate=$request->request->get('fromDate');
+            $toDate=$request->request->get('toDate');
+            $shift_form=$request->request->get('Shift');
+            preg_match_all('/([\d]+)/', $shift_form, $id_shift);
+
+            $shift=$em->getRepository('AGEPEAdminBundle:TimeShift')->find($id_shift[0][0]);
+
+            $assignment = new Assignment();
+            $assignment->setEmployee($employee);
+            $assignment->setFromDate(\DateTime::createFromFormat( 'Y-m-d', $fromDate ));
+            $assignment->setTimeShift($shift);
+            if($toDate==null)
+            {
+
+                $assignment->setToDate(null);
+            }
+            else
+            {
+
+                $assignment->setToDate(\DateTime::createFromFormat( 'Y-m-d', $toDate ));
+            }
+            $em->persist($assignment);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('assignment_by_employee',
+                array('id' => $id)));
+
+        }
+        return $this->redirect($this->generateUrl('assignment_by_employee',
+            array('id' => $id)));;
+    }
+
+
     /**
      * Lists all Assignment entities.
      *
@@ -136,24 +183,16 @@ class AssignmentController extends Controller
                 ->getQuery()
                 ->getResult();
 
-            $array = array();
+
             if ($entities) {
-                foreach ($entities as $entity) {
-                    if ($entity->getToDate() != null) {
-                        array_push($array, $entity);
-                    }
-                }
-            }
-            if ($array) {
-                return $this->render('AGEPEAdminBundle:Assignment:indexEmployee.html.twig',
-                    array('entities' => $array, 'date' => $date));
-            } else {
-                return $this->render('AGEPEAdminBundle:Assignment:indexEmployee.html.twig',
+                return $this->render('AGEPEAdminBundle:Assignment:index.html.twig',
                     array('entities' => $entities, 'date' => $date));
+            } else {
+                return $this->render('AGEPEAdminBundle:Assignment:index.html.twig',
+                    array('entities' => null, 'date' => $date));
             }
 
         }
-
 
         return array(
             'entities' => $entities, 'date' => null
@@ -205,7 +244,7 @@ class AssignmentController extends Controller
 
         $shifts=$em->getRepository('AGEPEAdminBundle:TimeShift')->findAll();
 
-        return $this->render('AGEPEAdminBundle:Assignment:editEmployee.html.twig',
+        return $this->render('AGEPEAdminBundle:Assignment:edit.html.twig',
             array('entity'=>$entity,
                 'slots'=>$slots,
                 'shifts'=>$shifts));

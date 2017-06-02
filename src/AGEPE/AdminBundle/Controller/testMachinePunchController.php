@@ -66,4 +66,5 @@ class testMachinePunchController extends Controller
         return $this->render('AGEPEAdminBundle:testPunchMachine:Machine.html.twig',
             array('entities'=>$entities));
     }
+
 }

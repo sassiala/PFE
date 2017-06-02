@@ -9,17 +9,15 @@
 {% endblock title_head_bar %}
 
 {% block container_fluid %}
-    <div class="row">
-        <div class="col-lg-8">
+
+    <div class="row page-header">
+        <h1 class="col-lg-8">
+            <a class="btn btn-primary btn-lg" href="{{ path('assignment') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+                    </span>
+            </a>
             <a class="btn btn-default btn-lg" href="{{ path('assignment_by_employee',{'id':entity.employee.id}) }}">
                 Add new to {{ entity.employee.lastName }}
-            </a>
-        </div>
-        <h1 class=" col-lg-2">
-            <a class="btn btn-default btn-xs" href="{{ path('assignment') }}">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
-                </span>
-                Back to the list
             </a>
         </h1>
     </div>
@@ -82,14 +80,6 @@
 
     </div>
 
-    <div class="form-group">
-
-        <div class="col-lg-8"></div>
-
-        <a class="relative col-xs-2 btn btn-info " href="{{ path('assignment_edit',{'id':entity.id}) }}">
-            Edit
-        </a>
-    </div>
 
     <div class="row">
 

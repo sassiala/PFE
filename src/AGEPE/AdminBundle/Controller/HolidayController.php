@@ -95,7 +95,13 @@ class HolidayController extends Controller
         $entity = new Holiday();
         $form   = $this->createCreateForm($entity);
 
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entitiesH = $em->getRepository('AGEPEAdminBundle:Holiday')->findAll();
+
         return array(
+            'entities'=>$entitiesH,
             'entity' => $entity,
             'form'   => $form->createView(),
         );

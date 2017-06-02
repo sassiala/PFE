@@ -54,7 +54,6 @@ class dailyWorkCommand extends ContainerAwareCommand
         $date = $input->getArgument('date');
         if ($date==''){
             $date = new \DateTime( date('Y-m-d') ) ;
-           var_dump($date->getTimestamp()->d);
         }
         else{
             $date =  \DateTime::createFromFormat( 'Y-m-d', $date ) ;
